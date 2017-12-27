@@ -9,9 +9,9 @@ import com.example.almin.mvp.R;
 import com.example.almin.mvp.datasource.LoginDataSourceImpl;
 import com.example.almin.mvp.navigator.RegistrationNavigator;
 import com.example.almin.mvp.ui.base.AbstractFragment;
-import com.example.library.contract.AbstractContract.Presenter;
-import com.example.library.contract.LoginContract;
-import com.example.library.presenter.registration.LoginPresenterImpl;
+import com.example.almin.mvp.contract.AbstractContract.Presenter;
+import com.example.almin.mvp.contract.LoginContract;
+import com.example.almin.mvp.presenter.registration.LoginPresenterImpl;
 
 /**
  * Created by almin on 2017/12/7.

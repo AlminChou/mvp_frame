@@ -1,7 +1,6 @@
 package com.example.almin.mvp;
 
-import com.example.library.model.UserProfile;
-import com.example.library.retrofit.component.RetrofitConfiguration;
+import com.almin.retrofitlibrary.RetrofitConfiguration;
 
 /**
  * Created by almin on 2017/12/14.
@@ -16,13 +15,6 @@ public class AppConfiguration implements RetrofitConfiguration {
             instance = new AppConfiguration();
         }
         return instance;
-    }
-
-
-
-    @Override
-    public UserProfile getUserProfile() {
-        return null;
     }
 
     @Override
