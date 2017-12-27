@@ -1,8 +1,8 @@
 package com.example.almin.mvp.datasource.local.repository;
 
 import com.example.almin.mvp.datasource.local.db.UserDataBaseHelper;
-import com.example.library.listener.Consumer;
-import com.example.library.model.UserProfile;
+import com.example.almin.mvp.listener.Consumer;
+import com.example.almin.mvp.datasource.model.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,12 @@
 package com.example.almin.mvp.datasource;
 
+import com.almin.retrofitlibrary.callback.HttpResultSubscriber;
 import com.example.almin.mvp.AppConfiguration;
 import com.example.almin.mvp.datasource.local.SharedPreferencesHelper;
-import com.example.library.contract.LoginContract;
-import com.example.library.model.UserProfile;
+import com.example.almin.mvp.contract.LoginContract;
+import com.example.almin.mvp.datasource.apiinteractor.UserApiInteractor;
+import com.example.almin.mvp.datasource.model.UserProfile;
 import com.example.almin.mvp.datasource.local.repository.UserProfileRepository;
-import com.example.library.retrofit.UserApiServiceRetrofit;
-import com.example.library.retrofit.component.HttpResultSubscriber;
-import com.example.library.retrofit.service.UserApiService;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -20,12 +19,12 @@ import io.reactivex.functions.Function;
 
 public class LoginDataSourceImpl extends BaseDataSourceImpl implements LoginContract.DataSource {
     private UserProfileRepository mRepository;
-    private UserApiService mUserApiService;
+    private UserApiInteractor.UserApiService mUserApiService;
 
     public LoginDataSourceImpl(LifecycleProvider<ActivityEvent> lifecycleProvider) {
         super(lifecycleProvider);
         mRepository = UserProfileRepository.getsInstance();
-        mUserApiService = UserApiServiceRetrofit.getInstance(AppConfiguration.getInstance()).getService();
+        mUserApiService = RetrofitClientProvider.getInstance(AppConfiguration.getInstance()).getUserApiService();
     }
 
     @Override

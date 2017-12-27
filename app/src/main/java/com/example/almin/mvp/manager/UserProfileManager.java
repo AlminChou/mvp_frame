@@ -1,7 +1,7 @@
 package com.example.almin.mvp.manager;
 
 
-import com.example.library.model.UserProfile;
+import com.example.almin.mvp.datasource.model.UserProfile;
 import com.example.almin.mvp.datasource.local.repository.UserProfileRepository;
 
 /**

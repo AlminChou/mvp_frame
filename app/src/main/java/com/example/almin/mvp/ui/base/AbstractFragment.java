@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.library.contract.AbstractContract.Presenter;
+import com.example.almin.mvp.contract.AbstractContract.Presenter;
 
 /**
  * Created by almin on 2017/12/7.
