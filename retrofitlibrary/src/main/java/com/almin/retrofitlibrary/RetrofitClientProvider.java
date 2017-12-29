@@ -1,11 +1,9 @@
-package com.example.almin.mvp.datasource;
+package com.almin.retrofitlibrary;
 
-import com.example.almin.mvp.datasource.apiinteractor.UserApiInteractor;
-import com.example.almin.mvp.datasource.apiinteractor.UserApiInteractor.UserApiService;
-import com.almin.retrofitlibrary.interceptor.ConnectivityInterceptor;
-import com.almin.retrofitlibrary.RetrofitConfiguration;
+import android.support.annotation.CallSuper;
+
 import com.almin.retrofitlibrary.errorhandlecomponent.RxErrorHandlingCallAdapterFactory;
-import com.almin.retrofitlibrary.interceptor.DynamicBaseUrlInterceptor;
+import com.almin.retrofitlibrary.interceptor.ConnectivityInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,24 +14,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-/**
- * Created by almin on 2017/12/25.
- */
-
-public class RetrofitClientProvider {
-    private static RetrofitClientProvider sRetrofitClientProvider;
+public abstract class RetrofitClientProvider {
     private RetrofitConfiguration mRetrofitConfiguration;
     private Retrofit mRetrofit;
-    private UserApiService mUserApiService;
 
-    public static RetrofitClientProvider getInstance(RetrofitConfiguration retrofitConfiguration){
-        if(sRetrofitClientProvider == null){
-            sRetrofitClientProvider = new RetrofitClientProvider(retrofitConfiguration);
-        }
-        return sRetrofitClientProvider;
-    }
-
-    private RetrofitClientProvider(RetrofitConfiguration retrofitConfiguration){
+    public void init(RetrofitConfiguration retrofitConfiguration){
         this.mRetrofitConfiguration = retrofitConfiguration;
         initRetrofit();
         initService();
@@ -49,20 +34,25 @@ public class RetrofitClientProvider {
                 .build();
     }
 
-    private void initService() {
-        mUserApiService = mRetrofit.create(UserApiService.class);
+    protected abstract String getBaseUrl();
+
+    protected abstract void initService();
+
+    @CallSuper
+    protected void initHttpClientConfig(OkHttpClient.Builder builder){
+        builder.connectTimeout(mRetrofitConfiguration.getConnectTimeout(), TimeUnit.MILLISECONDS);
+        builder.readTimeout(mRetrofitConfiguration.getConnectTimeout(), TimeUnit.MILLISECONDS);
+    }
+
+    @CallSuper
+    protected void addInterceptor(OkHttpClient.Builder builder){
+        builder.addInterceptor(new ConnectivityInterceptor(mRetrofitConfiguration));
     }
 
     private OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(mRetrofitConfiguration.getConnectTimeout(), TimeUnit.MILLISECONDS);
-        builder.readTimeout(mRetrofitConfiguration.getConnectTimeout(), TimeUnit.MILLISECONDS);
-
-        builder.addInterceptor(new ConnectivityInterceptor(mRetrofitConfiguration));
-
-        DynamicBaseUrlInterceptor dynamicBaseUrlInterceptor = new DynamicBaseUrlInterceptor();
-        dynamicBaseUrlInterceptor.registerProcessor(new UserApiInteractor.UserApiProcessor());
-        builder.addInterceptor(new DynamicBaseUrlInterceptor());
+        initHttpClientConfig(builder);
+        addInterceptor(builder);
 
 //        if(retrofitConfiguration.getServicesHost().contains("localhost")) {
 //            builder.hostnameVerifier((s, sslSession) -> true);
@@ -70,16 +60,8 @@ public class RetrofitClientProvider {
         return builder.build();
     }
 
-    private String getBaseUrl() {
-        return null;
-    }
-
     public Retrofit getRetrofit() {
         return mRetrofit;
-    }
-
-    public UserApiService getUserApiService(){
-        return mUserApiService;
     }
 
     protected static RequestBody createCustomJsonRequestBody(String json){
