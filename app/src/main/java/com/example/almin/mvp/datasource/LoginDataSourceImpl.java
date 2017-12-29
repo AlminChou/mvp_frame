@@ -24,7 +24,7 @@ public class LoginDataSourceImpl extends BaseDataSourceImpl implements LoginCont
     public LoginDataSourceImpl(LifecycleProvider<ActivityEvent> lifecycleProvider) {
         super(lifecycleProvider);
         mRepository = UserProfileRepository.getsInstance();
-        mUserApiService = RetrofitClientProvider.getInstance(AppConfiguration.getInstance()).getUserApiService();
+        mUserApiService = RetrofitManager.getInstance().getUserApiService();
     }
 
     @Override

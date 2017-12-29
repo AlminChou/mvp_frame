@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.almin.mvp.datasource.RetrofitManager;
 import com.example.almin.mvp.datasource.local.SharedPreferencesHelper;
 import com.example.almin.mvp.manager.UserProfileManager;
 
@@ -22,6 +23,7 @@ public class App extends Application {
         UserProfileManager.getInstance().init();
         SharedPreferencesHelper.getInstance().init(this);
         AppConfiguration.getInstance().init();
+        RetrofitManager.getInstance().init(AppConfiguration.getInstance());
     }
 
     public static App getApplication(Context context) {

@@ -1,4 +1,4 @@
-package com.example.almin.mvp.datasource;
+package com.almin.retrofitlibrary;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
