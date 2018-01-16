@@ -2,6 +2,7 @@ package com.almin.retrofitlibrary.interceptor;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.almin.retrofitlibrary.urlprocessor.DefaultUrlProcessor;
 import com.almin.retrofitlibrary.urlprocessor.UrlProcessor;
@@ -23,10 +24,12 @@ import okhttp3.Response;
 public class DynamicBaseUrlInterceptor implements Interceptor {
     private static final String MATCH_HEADER_KEY = "base_url_key";
     private static final String MATCH_KEY_DEFAULT = "default";
+    private String mDefaultBaseUrl;
     private HashMap<String,UrlProcessor> mUrlProcessorList = new HashMap<>();
 
-    public DynamicBaseUrlInterceptor(){
+    public DynamicBaseUrlInterceptor(String defaultBaseUrl){
         init();
+        mDefaultBaseUrl = defaultBaseUrl;
     }
 
     private void init() {
@@ -47,17 +50,19 @@ public class DynamicBaseUrlInterceptor implements Interceptor {
         String baseUrlKey = obtainBaseUrlKeyFromHeaders(request);
         HttpUrl baseHttpUrl = null;
 
-        System.out.println("baseurlkey : "+baseUrlKey);
+        Log.d("Http request",String.format("Request http url base url key is ：%s ",baseUrlKey));
+
 
         if(!TextUtils.isEmpty(baseUrlKey)){
             //remove the header key after obtain value
             requestBuilder.removeHeader(MATCH_HEADER_KEY);
-            baseHttpUrl = HttpUrl.parse(baseUrlKey);
             urlProcessor = getUrlProcessor(baseUrlKey);
             if(urlProcessor==null){
                 urlProcessor = getUrlProcessor(MATCH_KEY_DEFAULT);
             }
+            baseHttpUrl = HttpUrl.parse(urlProcessor.getBaseUrl());
         }else{
+            baseHttpUrl = HttpUrl.parse(mDefaultBaseUrl);
             urlProcessor = getUrlProcessor(MATCH_KEY_DEFAULT);
         }
 
@@ -70,8 +75,10 @@ public class DynamicBaseUrlInterceptor implements Interceptor {
         HttpUrl requestHttpUrl = urlProcessor.wrapUrl(baseHttpUrl,request.url());
         if(requestHttpUrl != null){
             requestBuilder.url(requestHttpUrl);
+            Log.d("Http request",String.format("Request http url is ： %s",requestHttpUrl.toString()));
         }
-        System.out.println("  url :  "+requestHttpUrl.toString());
+
+
         return chain.proceed(requestBuilder.build());
     }
 
