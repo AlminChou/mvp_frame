@@ -4,7 +4,11 @@ import com.almin.retrofitlibrary.RxSchedulerHelper;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.ObservableTransformer;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -12,11 +16,13 @@ import io.reactivex.ObservableTransformer;
  */
 
 public abstract class BaseDataSourceImpl {
+    private List<Disposable> mDisposables;
 
     private LifecycleProvider<ActivityEvent> mLifecycleProvider;
 
     public BaseDataSourceImpl(LifecycleProvider<ActivityEvent> lifecycleProvider) {
         this.mLifecycleProvider = lifecycleProvider;
+        mDisposables = new ArrayList<>();
     }
 
     protected ObservableTransformer getDestroyComposer() {
@@ -29,4 +35,17 @@ public abstract class BaseDataSourceImpl {
                         .compose(mLifecycleProvider.bindUntilEvent(ActivityEvent.DESTROY));
     }
 
+
+    protected void subscribeSubject(Disposable disposable) {
+        if(!mDisposables.contains(disposable)){
+            mDisposables.add(disposable);
+        }
+    }
+
+    public void unSubscribeSubjects() {
+        for(Disposable disposable : mDisposables){
+            disposable.dispose();
+        }
+        mDisposables.clear();
+    }
 }

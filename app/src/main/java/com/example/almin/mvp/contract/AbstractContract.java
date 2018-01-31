@@ -35,6 +35,7 @@ public interface AbstractContract {
         //   saveToRP /getFromRP (Repository: DateBase, Manager)
         //   saveToSP /getFromSP (SharedPreferences)
 
+        void unSubscribeSubjects();
     }
 
 }

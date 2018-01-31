@@ -1,12 +1,12 @@
 package com.example.almin.mvp.datasource;
 
 import com.almin.retrofitlibrary.callback.HttpResultSubscriber;
-import com.example.almin.mvp.AppConfiguration;
 import com.example.almin.mvp.datasource.local.SharedPreferencesHelper;
 import com.example.almin.mvp.contract.LoginContract;
 import com.example.almin.mvp.datasource.apiinteractor.UserApiInteractor;
 import com.example.almin.mvp.datasource.model.UserProfile;
 import com.example.almin.mvp.datasource.local.repository.UserProfileRepository;
+import com.example.almin.mvp.datasource.network.RetrofitManager;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 

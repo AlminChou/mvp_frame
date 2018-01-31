@@ -1,4 +1,4 @@
-package com.example.almin.mvp.datasource;
+package com.example.almin.mvp.datasource.network;
 
 import com.almin.retrofitlibrary.RetrofitClientProvider;
 import com.almin.retrofitlibrary.interceptor.DynamicBaseUrlInterceptor;
@@ -26,9 +26,9 @@ public class RetrofitManager extends RetrofitClientProvider {
     @Override
     protected void addInterceptor(OkHttpClient.Builder builder) {
         super.addInterceptor(builder);
-        DynamicBaseUrlInterceptor dynamicBaseUrlInterceptor = new DynamicBaseUrlInterceptor();
+        DynamicBaseUrlInterceptor dynamicBaseUrlInterceptor = new DynamicBaseUrlInterceptor("");
         dynamicBaseUrlInterceptor.registerProcessor(new UserApiInteractor.UserApiProcessor());
-        builder.addInterceptor(new DynamicBaseUrlInterceptor());
+        builder.addInterceptor(dynamicBaseUrlInterceptor);
     }
 
     @Override

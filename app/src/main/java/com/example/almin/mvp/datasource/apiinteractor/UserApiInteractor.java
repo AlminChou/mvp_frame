@@ -6,6 +6,7 @@ import com.example.almin.mvp.datasource.model.UserProfile;
 import io.reactivex.Observable;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -21,6 +22,10 @@ public class UserApiInteractor{
 
 
     public interface UserApiService {
+
+        @Headers({MATCH_HEADER+UserApiProcessor.MATCH_KEY})
+        @POST("login")
+        Call<String> fetchToken();
 
         @Headers({MATCH_HEADER+UserApiProcessor.MATCH_KEY})
         @POST("login")

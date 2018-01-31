@@ -33,6 +33,10 @@ public class RetrofitException extends RuntimeException {
         return new RetrofitException(exception.getMessage(), null, null, Kind.UNEXPECTED, exception, null);
     }
 
+    public static RetrofitException tokenError(TokenInvalidException exception) {
+        return new RetrofitException(exception.getMessage(), null, null, Kind.TOKEN, exception, null);
+    }
+
     /** Identifies the event kind which triggered a {@link RetrofitException}. */
     public enum Kind {
         /** An {@link IOException} occurred while communicating to the server. */
@@ -46,6 +50,9 @@ public class RetrofitException extends RuntimeException {
         UNEXPECTED,
 
         NOCONNECTIVITY,
+
+        /** A token invalid status code was received from the server. */
+        TOKEN
 
     }
 

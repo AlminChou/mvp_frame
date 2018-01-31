@@ -75,7 +75,10 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
             } else if (throwable instanceof IOException) {
                 // A network error happened
                 return RetrofitException.networkError((IOException) throwable);
-            } else {
+            } else if(throwable instanceof TokenInvalidException){
+                // token invalid
+                return RetrofitException.tokenError((TokenInvalidException) throwable);
+            }else{
                 // We don't know what happened. We need to simply convert to an unknown error
                 return RetrofitException.unexpectedError(throwable);
             }

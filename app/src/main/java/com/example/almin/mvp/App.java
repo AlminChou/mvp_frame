@@ -2,9 +2,8 @@ package com.example.almin.mvp;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.example.almin.mvp.datasource.RetrofitManager;
+import com.example.almin.mvp.datasource.network.RetrofitManager;
 import com.example.almin.mvp.datasource.local.SharedPreferencesHelper;
 import com.example.almin.mvp.manager.UserProfileManager;
 
